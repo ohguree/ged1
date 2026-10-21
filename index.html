@@ -112,6 +112,7 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
 @keyframes burst{0%{opacity:1;transform:translate(0,0) scale(1)}70%{opacity:1}100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(.4)}}
 @keyframes twinkle{0%{opacity:0;transform:scale(.2) rotate(-20deg)}30%{opacity:1;transform:scale(1.2) rotate(8deg)}100%{opacity:0;transform:scale(1) translateY(-3cqw)}}
 @keyframes thumbin{0%{opacity:0;transform:translate(-50%,-50%) scale(.2) rotate(-25deg)}15%{opacity:1;transform:translate(-50%,-50%) scale(1.25) rotate(8deg)}28%{transform:translate(-50%,-50%) scale(1) rotate(0)}85%{opacity:1}100%{opacity:0;transform:translate(-50%,-56%) scale(1)}}
+.hs.hl{border:3px solid var(--coral);border-radius:10px;background:rgba(255,127,107,.14);box-sizing:border-box;animation:ping 1.4s ease-out infinite}
 .hot.gone{display:none}
 .hot.off .ring,.hot.off .tip{display:none}
 .hot.flash .ring,.hot.flash .tip{display:block}
@@ -440,8 +441,8 @@ function showDialog(d){
       del.addEventListener('click', () => { if (!on){ popAt(d.dele, '삭제할 추천서를 선택해 주세요', 2400); return; } REG.deleted = true; im.src = d.img0; cb.remove(); del.remove(); back.querySelector('.wedit').remove(); back.querySelectorAll('.pop').forEach(p => p.remove()); });
     }
     if (d.kind === 'done' && hasRow){
-      const hv = mk(d.hover.box, 'hs'); hv.addEventListener('pointerenter', () => popAt(d.hover.box, d.hover.text)); hv.addEventListener('pointerleave', () => back.querySelectorAll('.pop').forEach(p => p.remove())); hv.addEventListener('click', () => { REG.recommended = false; REG.passed = false; REG.drafted = true; REG.deleted = false; REG.reedit = true; REG.panelDone = {}; openTab('wait'); });
-      const st = mk(d.status.box, 'hs'); st.addEventListener('click', () => { popAt(d.status.box, d.status.text, 2600); if (!REG.passed) celebrate(back); REG.passed = true; im.src = d.img2; });
+      const hv = mk(d.hover.box, 'hs' + (assist ? ' hl' : '')); hv.addEventListener('pointerenter', () => popAt(d.hover.box, d.hover.text)); hv.addEventListener('pointerleave', () => back.querySelectorAll('.pop').forEach(p => p.remove())); hv.addEventListener('click', () => { REG.recommended = false; REG.passed = false; REG.drafted = true; REG.deleted = false; REG.reedit = true; REG.panelDone = {}; openTab('wait'); });
+      const st = mk(d.status.box, 'hs' + (assist && !REG.passed ? ' hl' : '')); st.addEventListener('click', () => { popAt(d.status.box, d.status.text, 2600); if (!REG.passed) celebrate(back); REG.passed = true; st.classList.remove('hl'); im.src = d.img2; });
     }
     (d.tabs || []).forEach(tb => mk(tb.box, 'hs').addEventListener('click', () => openTab(tb.ref)));
   } else if (d.panel){
